@@ -77,10 +77,6 @@ Hello from Docker!
 This message shows that your installation appears to be working correctly.
 ```
 
-以下是按照你提供的 **NVIDIA Container Toolkit** 官方文档简化后的安装步骤：
-
----
-
 ## 安装 NVIDIA Container Toolkit
 
 参考 [NVIDIA Container Toolkit 官方文档](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install-guide.html) 进行安装。
