@@ -7,7 +7,7 @@
 **功能说明：**  
 将指定文件夹内的 `.docx`、`.pptx` 等文件批量转换为 PDF 文件。
 
-**核心代码：**
+**pdf_converter.batch_convert：**
 ```python
 from comtypes.client import CreateObject
 import os
@@ -41,9 +41,9 @@ def batch_convert(folder_path):
 ## 📥 2. PDF 提取（转 Markdown,pdf_extractor.py）
 
 **功能说明：**  
-将 PDF 文件内容提取并保存为 Markdown 文件，支持 OCR 识别。
+将 PDF 文件内容提取并保存为 Markdown 文件，支持 OCR 识别。直接使用MinerU进行提取，链接如下：https://github.com/opendatalab/MinerU
 
-**核心代码：**
+**pdf_extractor.py：**
 ```python
 def process_pdf(pdf_file_name, output_dir="output"):
     import torch
@@ -63,7 +63,7 @@ def process_pdf(pdf_file_name, output_dir="output"):
 **功能说明：**  
 清洗 Markdown 内容，去除图片、链接、目录、乱码和参考文献。
 
-**核心代码：**
+**lean_markdown：**
 ```python
 def clean_markdown(content):
     import re
@@ -82,9 +82,8 @@ def clean_markdown(content):
 **功能说明：**  
 将多个 txt 或文本文件合并为一个文件，方便后续处理。
 
-**核心代码：**
+**merge：**
 ```python
-import os
 
 def merge_txt_files(input_folder, output_file):
     with open(output_file, "w", encoding="utf-8") as outfile:
@@ -103,10 +102,8 @@ def merge_txt_files(input_folder, output_file):
 **功能说明：**  
 基于 Sentence-BERT 模型，计算句子相似度并去重。
 
-**核心代码：**
+**semantic_deduplicate：**
 ```python
-from sentence_transformers import SentenceTransformer
-import numpy as np
 
 def semantic_deduplicate(input_file, output_file, threshold=0.9):
     model = SentenceTransformer('all-MiniLM-L6-v2')
@@ -126,10 +123,9 @@ def semantic_deduplicate(input_file, output_file, threshold=0.9):
 **功能说明：**  
 将清洗后的 `.txt` 文件转化为结构化的 `.jsonl` 文件，按章节保存。
 
-**核心代码：**
+**txt_to_jsonl：**
 ```python
-import json
-import os
+
 
 def txt_to_jsonl(input_folder, output_folder):
     os.makedirs(output_folder, exist_ok=True)

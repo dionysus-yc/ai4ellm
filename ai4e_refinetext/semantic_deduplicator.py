@@ -1,4 +1,3 @@
-
 import sys
 import numpy as np
 from sentence_transformers import SentenceTransformer
@@ -17,12 +16,13 @@ def semantic_deduplicate(input_file, output_file, model_name='sentence-transform
     - similarity_threshold: 相似度阈值（0~1之间的余弦相似度）
     - batch_size: 批处理大小，每次计算多少行的嵌入
     - encoding: 文件编码
-
-    步骤：
-    1. 批量读取文本行并计算嵌入向量
-    2. 对每行文本向量与已保留向量集计算相似度，若最高相似度低于阈值则保留该行并添加其向量到集合中。
     """
-    model = SentenceTransformer(model_name)
+    try:
+        # 加载Sentence-BERT模型
+        model = SentenceTransformer(model_name)
+    except Exception as e:
+        print(f"加载模型时出错: {e}", file=sys.stderr)
+        return
 
     # 用于保存已保留行的向量
     retained_embeddings = []
@@ -35,7 +35,7 @@ def semantic_deduplicate(input_file, output_file, model_name='sentence-transform
         line_count = 0
         unique_count = 0
 
-        for line in tqdm(fin, desc="Processing"):
+        for line in tqdm(fin, desc="Processing", unit="line"):
             text = line.strip()
             if not text:
                 continue
@@ -102,6 +102,6 @@ def process_batch(lines, model, retained_embeddings, retained_texts, similarity_
 
 
 if __name__ == '__main__':
-    input_path = r"G:\yuliaoku\1-quan/未去重.txt"
-    output_path =  r"G:\yuliaoku\1-quan/去重.txt"
+    input_path = r"G:\yuliaoku\1-quan\未去重.txt"
+    output_path = r"G:\yuliaoku\1-quan\去重.txt"
     semantic_deduplicate(input_path, output_path, similarity_threshold=0.9)
